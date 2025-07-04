@@ -4,6 +4,7 @@ import { useAppDispatch } from '../hooks/reduxHooks';
 import { addBook } from '../store/slices/bookSlice';
 import { BookFormData } from '../types/Book';
 import DatabaseErrorMessage from './DatabaseErrorMessage';
+import { useAuth } from '../contexts/AuthContext';
 
 const initialFormData: BookFormData = {
   title: '',
@@ -21,6 +22,7 @@ const BookForm: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
@@ -38,7 +40,13 @@ const BookForm: React.FC = () => {
     setError(null);
     
     try {
-      await dispatch(addBook(formData)).unwrap();
+      // Include current user information
+      const bookData = {
+        ...formData,
+        createdBy: user?.email || 'unknown'
+      };
+      
+      await dispatch(addBook(bookData)).unwrap();
       setFormData(initialFormData);
       navigate('/');
     } catch (error: any) {

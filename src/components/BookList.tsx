@@ -5,6 +5,8 @@ import DatabaseErrorMessage from './DatabaseErrorMessage';
 import EditBookForm from './EditBookForm';
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { Book } from '../types/Book';
+import { useAuth } from '../contexts/AuthContext';
+import AuthGuard from './AuthGuard';
 
 interface BookListProps {
   onSelectBook: (id: string) => void;
@@ -14,6 +16,7 @@ const BookList: React.FC<BookListProps> = ({ onSelectBook }) => {
   const dispatch = useAppDispatch();
   const { books, loading, error } = useAppSelector(state => state.books);
   const [editBook, setEditBook] = useState<Book | null>(null);
+  const { isLoggedIn } = useAuth();
 
   useEffect(() => {
     dispatch(fetchBooks());
@@ -91,31 +94,35 @@ const BookList: React.FC<BookListProps> = ({ onSelectBook }) => {
                 <span className={`px-2 py-1 text-xs rounded-full ${book.isRead ? 'bg-green-800 text-green-200' : 'bg-yellow-800 text-yellow-200'}`}>
                   {book.isRead ? 'Read' : 'Unread'}
                 </span>
-                <div className="ml-4 flex-shrink-0">
-                  <button 
-                    onClick={(e) => handleEditBook(e, book)}
-                    className="text-blue-500 hover:text-blue-700 transition-colors"
-                  >
-                    <PencilIcon className="w-5 h-5" />
-                  </button>
-                  <button 
-                    onClick={(e) => handleDeleteBook(e, book.id)}
-                    className="text-red-500 hover:text-red-700 transition-colors ml-2"
-                  >
-                    <TrashIcon className="w-5 h-5" />
-                  </button>
-                </div>
+                <AuthGuard>
+                  <div className="ml-4 flex-shrink-0">
+                    <button 
+                      onClick={(e) => handleEditBook(e, book)}
+                      className="text-blue-500 hover:text-blue-700 transition-colors"
+                    >
+                      <PencilIcon className="w-5 h-5" />
+                    </button>
+                    <button 
+                      onClick={(e) => handleDeleteBook(e, book.id)}
+                      className="text-red-500 hover:text-red-700 transition-colors ml-2"
+                    >
+                      <TrashIcon className="w-5 h-5" />
+                    </button>
+                  </div>
+                </AuthGuard>
               </div>
             </li>
           ))}
         </ul>
       )}
-      {editBook && (
-        <EditBookForm 
-          book={editBook} 
-          onClose={() => setEditBook(null)} 
-        />
-      )}
+      <AuthGuard>
+        {editBook && (
+          <EditBookForm 
+            book={editBook} 
+            onClose={() => setEditBook(null)} 
+          />
+        )}
+      </AuthGuard>
     </div>
   );
 };

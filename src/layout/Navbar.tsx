@@ -144,30 +144,32 @@ export default function Navbar() {
                         {item.name}
                       </Link>
                     ))}
-                    <DDMenu
-                      items={referencesMenuItems}
-                      placement="bottom"
-                      variant="default"
-                      style={{
-                        color: "#374151",
-                        fontWeight: "500",
-                      }}
-                      className="dd-menu--default dd-menu--md dd-menu--navbar dd-menu--navbar--md"
-                      closeOnClick={true}
-                      size="md"
-                      theme={mode}
-                      trigger={
-                        <span
-                          style={{
-                            color: "#374151",
-                            fontWeight: "500",
-                            cursor: "pointer",
-                          }}
-                        >
-                          Tools
-                        </span>
-                      }
-                    />
+                    <AuthGuard>
+                      <DDMenu
+                        items={referencesMenuItems}
+                        placement="bottom"
+                        variant="default"
+                        style={{
+                          color: "#374151",
+                          fontWeight: "500",
+                        }}
+                        className="dd-menu--default dd-menu--md dd-menu--navbar dd-menu--navbar--md"
+                        closeOnClick={true}
+                        size="md"
+                        theme={mode}
+                        trigger={
+                          <span
+                            style={{
+                              color: "#374151",
+                              fontWeight: "500",
+                              cursor: "pointer",
+                            }}
+                          >
+                            Tools
+                          </span>
+                        }
+                      />
+                    </AuthGuard>
                     <DDMenu
                       items={navMenuItems}
                       placement="bottom"
@@ -266,28 +268,30 @@ export default function Navbar() {
               </div>
 
               {/* Tools & References items for mobile */}
-              <div className="pt-2 pb-1">
-                <p className="px-3 text-xs font-semibold uppercase tracking-wider" 
-                   style={{ color: "var(--text-secondary)" }}>
-                  Tools & References
-                </p>
-              </div>
-              <div className="grid grid-cols-1 gap-2 mb-4">
-                {referencesMenuItems.map((item) => (
-                  <Link
-                    key={item.id}
-                    to={item.link || "#"}
-                    className="flex items-center px-4 py-3 rounded-lg transition-all"
-                    style={{
-                      backgroundColor: "var(--bg-secondary)",
-                      color: "var(--text-primary)"
-                    }}
-                  >
-                    <span className="mr-3 text-xl">{item.icon}</span>
-                    <span className="font-medium">{item.label}</span>
-                  </Link>
-                ))}
-              </div>
+              <AuthGuard>
+                <div className="pt-2 pb-1">
+                  <p className="px-3 text-xs font-semibold uppercase tracking-wider" 
+                     style={{ color: "var(--text-secondary)" }}>
+                    Tools & References
+                  </p>
+                </div>
+                <div className="grid grid-cols-1 gap-2 mb-4">
+                  {referencesMenuItems.map((item) => (
+                    <Link
+                      key={item.id}
+                      to={item.link || "#"}
+                      className="flex items-center px-4 py-3 rounded-lg transition-all"
+                      style={{
+                        backgroundColor: "var(--bg-secondary)",
+                        color: "var(--text-primary)"
+                      }}
+                    >
+                      <span className="mr-3 text-xl">{item.icon}</span>
+                      <span className="font-medium">{item.label}</span>
+                    </Link>
+                  ))}
+                </div>
+              </AuthGuard>
 
               {/* Packages items for mobile */}
               <div className="pt-2 pb-1">
