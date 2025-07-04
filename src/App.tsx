@@ -16,6 +16,7 @@ import MarkdownUtils from "./components/MarkdownUtils";
 import './styles/responsive.css';
 import AuthPage from "./pages/AuthPage";
 import ReferencesPage from "./pages/ReferencesPage";
+import CitationsPage from "./pages/CitationsPage";
 import { useAuth } from "./contexts/AuthContext";
 
 // Protected route component
@@ -77,6 +78,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <ReferencesPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/citations" 
+              element={
+                <ProtectedRoute>
+                  <CitationsPage />
                 </ProtectedRoute>
               } 
             />
