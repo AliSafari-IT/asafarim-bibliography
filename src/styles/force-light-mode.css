@@ -1,0 +1,38 @@
+/* Force light mode settings */
+:root {
+  color-scheme: light;
+}
+
+body, html {
+  background-color: white !important;
+  color: #242424 !important;
+}
+
+.dark {
+  background-color: white !important;
+  color: #242424 !important;
+}
+
+.dark\:bg-gray-800 {
+  background-color: white !important;
+}
+
+.dark\:bg-gray-700 {
+  background-color: #f3f4f6 !important;
+}
+
+.dark\:bg-gray-900 {
+  background-color: white !important;
+}
+
+.dark\:text-white, .dark\:text-gray-100 {
+  color: #242424 !important;
+}
+
+.dark\:text-gray-400 {
+  color: #4b5563 !important;
+}
+
+.dark\:border-gray-700, .dark\:border-gray-800 {
+  border-color: #e5e7eb !important;
+}

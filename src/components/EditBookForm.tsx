@@ -98,13 +98,35 @@ const EditBookForm: React.FC<EditBookFormProps> = ({ book, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-      <div className="bg-gray-800 p-6 rounded-lg shadow-lg max-w-md w-full">
-        <h2 className="text-xl font-bold mb-4">Edit Book</h2>
+    <div 
+      className="fixed inset-0 flex items-center justify-center z-50"
+      style={{
+        backgroundColor: "var(--overlay-bg)",
+      }}
+    >
+      <div 
+        className="p-6 rounded-lg shadow-lg max-w-md w-full"
+        style={{
+          backgroundColor: "var(--bg-secondary)",
+          color: "var(--text-primary)",
+          border: "1px solid var(--border-primary)",
+          boxShadow: "var(--shadow-lg)"
+        }}
+      >
+        <h2 
+          className="text-xl font-bold mb-4"
+          style={{ color: "var(--text-primary)" }}
+        >
+          Edit Book
+        </h2>
         
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="title" className="block text-sm font-medium mb-1">
+            <label 
+              htmlFor="title" 
+              className="block text-sm font-medium mb-1"
+              style={{ color: "var(--text-primary)" }}
+            >
               Title
             </label>
             <input
@@ -113,13 +135,24 @@ const EditBookForm: React.FC<EditBookFormProps> = ({ book, onClose }) => {
               name="title"
               value={formData.title}
               onChange={handleChange}
-              className={`w-full p-2 bg-gray-700 rounded ${errors.title ? 'border border-red-500' : 'border border-gray-600'}`}
+              className="w-full p-2 rounded transition-colors"
+              style={{ 
+                backgroundColor: "var(--bg-input)",
+                color: "var(--text-primary)",
+                borderColor: errors.title ? "var(--error)" : "var(--border-primary)",
+                borderWidth: "1px",
+                borderStyle: "solid"
+              }}
             />
-            {errors.title && <p className="mt-1 text-sm text-red-500">{errors.title}</p>}
+            {errors.title && <p className="mt-1 text-sm" style={{ color: "var(--error)" }}>{errors.title}</p>}
           </div>
           
           <div className="mb-4">
-            <label htmlFor="author" className="block text-sm font-medium mb-1">
+            <label 
+              htmlFor="author" 
+              className="block text-sm font-medium mb-1"
+              style={{ color: "var(--text-primary)" }}
+            >
               Author
             </label>
             <input
@@ -128,13 +161,24 @@ const EditBookForm: React.FC<EditBookFormProps> = ({ book, onClose }) => {
               name="author"
               value={formData.author}
               onChange={handleChange}
-              className={`w-full p-2 bg-gray-700 rounded ${errors.author ? 'border border-red-500' : 'border border-gray-600'}`}
+              className="w-full p-2 rounded transition-colors"
+              style={{ 
+                backgroundColor: "var(--bg-input)",
+                color: "var(--text-primary)",
+                borderColor: errors.author ? "var(--error)" : "var(--border-primary)",
+                borderWidth: "1px",
+                borderStyle: "solid"
+              }}
             />
-            {errors.author && <p className="mt-1 text-sm text-red-500">{errors.author}</p>}
+            {errors.author && <p className="mt-1 text-sm" style={{ color: "var(--error)" }}>{errors.author}</p>}
           </div>
           
           <div className="mb-4">
-            <label htmlFor="year" className="block text-sm font-medium mb-1">
+            <label 
+              htmlFor="year" 
+              className="block text-sm font-medium mb-1"
+              style={{ color: "var(--text-primary)" }}
+            >
               Year
             </label>
             <input
@@ -143,13 +187,23 @@ const EditBookForm: React.FC<EditBookFormProps> = ({ book, onClose }) => {
               name="year"
               value={formData.year}
               onChange={handleChange}
-              className={`w-full p-2 bg-gray-700 rounded ${errors.year ? 'border border-red-500' : 'border border-gray-600'}`}
+              className="w-full p-2 rounded transition-colors"
+              style={{ 
+                backgroundColor: "var(--bg-input)",
+                color: "var(--text-primary)",
+                borderColor: errors.year ? "var(--error)" : "var(--border-primary)",
+                borderWidth: "1px",
+                borderStyle: "solid"
+              }}
             />
-            {errors.year && <p className="mt-1 text-sm text-red-500">{errors.year}</p>}
+            {errors.year && <p className="mt-1 text-sm" style={{ color: "var(--error)" }}>{errors.year}</p>}
           </div>
-          
           <div className="mb-4">
-            <label htmlFor="genre" className="block text-sm font-medium mb-1">
+            <label 
+              htmlFor="genre" 
+              className="block text-sm font-medium mb-1"
+              style={{ color: "var(--text-primary)" }}
+            >
               Genre
             </label>
             <input
@@ -158,9 +212,16 @@ const EditBookForm: React.FC<EditBookFormProps> = ({ book, onClose }) => {
               name="genre"
               value={formData.genre}
               onChange={handleChange}
-              className={`w-full p-2 bg-gray-700 rounded ${errors.genre ? 'border border-red-500' : 'border border-gray-600'}`}
+              className="w-full p-2 rounded transition-colors"
+              style={{ 
+                backgroundColor: "var(--bg-input)",
+                color: "var(--text-primary)",
+                borderColor: errors.genre ? "var(--error)" : "var(--border-primary)",
+                borderWidth: "1px",
+                borderStyle: "solid"
+              }}
             />
-            {errors.genre && <p className="mt-1 text-sm text-red-500">{errors.genre}</p>}
+            {errors.genre && <p className="mt-1 text-sm" style={{ color: "var(--error)" }}>{errors.genre}</p>}
           </div>
           
           <div className="mb-6">
@@ -170,9 +231,12 @@ const EditBookForm: React.FC<EditBookFormProps> = ({ book, onClose }) => {
                 name="isRead"
                 checked={formData.isRead}
                 onChange={handleChange}
-                className="mr-2"
+                className="mr-2" 
+                style={{
+                  accentColor: "var(--accent-primary)"
+                }}
               />
-              <span>I have read this book</span>
+              <span style={{ color: "var(--text-primary)" }}>I have read this book</span>
             </label>
           </div>
           
@@ -180,14 +244,22 @@ const EditBookForm: React.FC<EditBookFormProps> = ({ book, onClose }) => {
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
+              className="px-4 py-2 rounded hover:shadow-md transition-colors"
+              style={{
+                backgroundColor: "var(--bg-tertiary)",
+                color: "var(--text-primary)"
+              }}
               disabled={isSubmitting}
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+              className="px-4 py-2 rounded hover:shadow-md transition-colors"
+              style={{
+                backgroundColor: "var(--accent-primary)",
+                color: "white"
+              }}
               disabled={isSubmitting}
             >
               {isSubmitting ? 'Saving...' : 'Save Changes'}
