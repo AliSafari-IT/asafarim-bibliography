@@ -1,4 +1,5 @@
 import { useAuth } from "../contexts/AuthContext";
+import { useEffect, useState } from "react";
 
 /**
  * UserProfile component
@@ -6,11 +7,17 @@ import { useAuth } from "../contexts/AuthContext";
  */
 const UserProfile = () => {
   const { user } = useAuth();
+  const [isMockAuth, setIsMockAuth] = useState(false);
+  
+  // Check if using mock authentication
+  useEffect(() => {
+    setIsMockAuth(localStorage.getItem('using_mock_auth') === 'true');
+  }, [user]);
 
   if (!user) return null;
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center relative">
       {user.imageUrl && (
         <img
           src={user.imageUrl}
@@ -25,6 +32,20 @@ const UserProfile = () => {
       >
         {user.name}
       </span>
+      
+      {isMockAuth && (
+        <span 
+          className="absolute -top-1 -right-1 px-1 py-0.5 text-xs rounded"
+          style={{
+            backgroundColor: "var(--warning)",
+            color: "var(--text-warning)",
+            fontSize: "0.65rem"
+          }}
+          title="Using demo authentication. Configure a Google Client ID to enable real login."
+        >
+          DEMO
+        </span>
+      )}
     </div>
   );
 };
