@@ -10,6 +10,7 @@ import {
   ConsentModal,
 } from "@asafarim/react-privacy-consent";
 import { globalConsentConfig } from "./config/consentConfig";
+import { AuthProvider } from "./contexts/AuthContext";
 
 import "./index.css";
 import "./styles/theme-components.css";
@@ -20,16 +21,17 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <ThemeProvider
       defaultMode="light"
       persistMode={true}
-      enableSystemPreference={true}
     >
       <Provider store={store}>
-        <ConsentProvider config={globalConsentConfig}>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-          <ConsentBanner />
-          <ConsentModal isOpen={false} onClose={() => {}} />
-        </ConsentProvider>
+        <AuthProvider>
+          <ConsentProvider config={globalConsentConfig}>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+            <ConsentBanner />
+            <ConsentModal isOpen={false} onClose={() => {}} />
+          </ConsentProvider>
+        </AuthProvider>
       </Provider>
     </ThemeProvider>
   </React.StrictMode>

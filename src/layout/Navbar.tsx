@@ -10,6 +10,10 @@ import {
 import DDMenu, { MenuItem } from "@asafarim/dd-menu";
 import { ThemeToggle, useTheme } from "@asafarim/react-themes";
 import GoogleLoginButton from "../components/GoogleLoginButton";
+import { useAuth } from "../contexts/AuthContext";
+import UserProfile from "../components/UserProfile";
+import SignOutButton from "../components/SignOutButton";
+import AuthGuard from "../components/AuthGuard";
 
 type NavigationItem = {
   name: string;
@@ -29,6 +33,8 @@ function classNames(...classes: string[]) {
 export default function Navbar() {
   const [activeItem, setActiveItem] = useState("Bibliography");
   const { mode } = useTheme();
+  const { isLoggedIn } = useAuth();
+  
   const handleNavigation = (name: string) => {
     setActiveItem(name);
   };
@@ -158,7 +164,7 @@ export default function Navbar() {
                             cursor: "pointer",
                           }}
                         >
-                          Tools & References ↓
+                          Tools
                         </span>
                       }
                     />
@@ -190,24 +196,43 @@ export default function Navbar() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 space-x-2">
-                <div className="hidden sm:block">
-                  <GoogleLoginButton />
-                </div>
-                <ThemeToggle />
-                <Link
-                  to="/add"
-                  className="navbar-add-button focus:ring-2"
-                  style={{
-                    backgroundColor: "var(--accent-primary)",
-                    color: "white",
-                    borderRadius: "9999px",
-                    padding: "0.5rem",
-                    transition: "background-color 0.2s ease"
-                  }}
-                  onClick={() => handleNavigation("Add Book")}
+                <AuthGuard
+                  fallback={
+                    <div className="hidden sm:block">
+                      <GoogleLoginButton />
+                    </div>
+                  }
                 >
-                  <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                </Link>
+                  <div className="hidden sm:flex items-center">
+                    <UserProfile />
+                    <SignOutButton />
+                  </div>
+                </AuthGuard>
+                
+                <ThemeToggle />
+                
+                <AuthGuard
+                  fallback={
+                    <div className="sm:hidden">
+                      <GoogleLoginButton />
+                    </div>
+                  }
+                >
+                  <Link
+                    to="/add"
+                    className="navbar-add-button focus:ring-2"
+                    style={{
+                      backgroundColor: "var(--accent-primary)",
+                      color: "white",
+                      borderRadius: "9999px",
+                      padding: "0.5rem",
+                      transition: "background-color 0.2s ease"
+                    }}
+                    onClick={() => handleNavigation("Add Book")}
+                  >
+                    <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                  </Link>
+                </AuthGuard>
               </div>
             </div>
           </div>
@@ -290,7 +315,16 @@ export default function Navbar() {
 
               {/* Login for mobile */}
               <div className="pt-4 pb-2 mt-2" style={{ borderTop: "1px solid var(--border-primary)" }}>
-                <GoogleLoginButton className="w-full justify-center py-2" />
+                <AuthGuard
+                  fallback={
+                    <GoogleLoginButton className="w-full justify-center py-2" />
+                  }
+                >
+                  <div className="flex items-center justify-between">
+                    <UserProfile />
+                    <SignOutButton />
+                  </div>
+                </AuthGuard>
               </div>
             </div>
           </Disclosure.Panel>

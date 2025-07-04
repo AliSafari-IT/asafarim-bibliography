@@ -1,5 +1,5 @@
 import { Suspense, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import '@asafarim/react-privacy-consent/styles.css';
 import BookList from "./components/BookList";
 import BookDetails from "./components/BookDetails";
@@ -14,6 +14,19 @@ import {ThemeDemo} from "./components/ThemeDemo";
 import PrivacyConsentDemo from "./components/PrivacyConsentDemo";
 import MarkdownUtils from "./components/MarkdownUtils";
 import './styles/responsive.css';
+import AuthPage from "./pages/AuthPage";
+import { useAuth } from "./contexts/AuthContext";
+
+// Protected route component
+const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+  const { isLoggedIn } = useAuth();
+  
+  if (!isLoggedIn) {
+    return <Navigate to="/auth" replace />;
+  }
+  
+  return children;
+};
 
 // Wrapper component to connect ConsentModal to consent context
 
@@ -49,7 +62,15 @@ function App() {
                 </div>
               }
             />
-            <Route path="/add" element={<BookForm />} />
+            <Route 
+              path="/add" 
+              element={
+                <ProtectedRoute>
+                  <BookForm />
+                </ProtectedRoute>
+              } 
+            />
+            <Route path="/auth" element={<AuthPage />} />
             <Route path="/edit/:id" element={<BookForm />} />
             <Route path="/info" element={<AppInfo />} />
             <Route path="/dd" element={<TestComponent />} />
