@@ -63,13 +63,18 @@ const BookForm: React.FC = () => {
         </div>
       )}
       
-      <form onSubmit={handleSubmit} className="bg-gray-800 shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <form onSubmit={handleSubmit} className="shadow-md rounded px-8 pt-6 pb-8 mb-4" style={{ backgroundColor: "var(--bg-secondary)" }}>
         <div className="mb-4">
-          <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="title">
+          <label className="block text-sm font-bold mb-2" style={{ color: "var(--text-primary)" }} htmlFor="title">
             Title
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+            style={{ 
+              backgroundColor: "var(--bg-primary)",
+              color: "var(--text-primary)",
+              borderColor: "var(--border-primary)"
+            }}
             id="title"
             type="text"
             name="title"
@@ -81,11 +86,16 @@ const BookForm: React.FC = () => {
         </div>
         
         <div className="mb-4">
-          <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="author">
+          <label className="block text-sm font-bold mb-2" style={{ color: "var(--text-primary)" }} htmlFor="author">
             Author
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+            style={{ 
+              backgroundColor: "var(--bg-primary)",
+              color: "var(--text-primary)",
+              borderColor: "var(--border-primary)"
+            }}
             id="author"
             type="text"
             name="author"
@@ -97,11 +107,16 @@ const BookForm: React.FC = () => {
         </div>
         
         <div className="mb-4">
-          <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="year">
+          <label className="block text-sm font-bold mb-2" style={{ color: "var(--text-primary)" }} htmlFor="year">
             Year
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+            style={{ 
+              backgroundColor: "var(--bg-primary)",
+              color: "var(--text-primary)",
+              borderColor: "var(--border-primary)"
+            }}
             id="year"
             type="number"
             name="year"
@@ -114,11 +129,16 @@ const BookForm: React.FC = () => {
         </div>
         
         <div className="mb-4">
-          <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="genre">
+          <label className="block text-sm font-bold mb-2" style={{ color: "var(--text-primary)" }} htmlFor="genre">
             Genre
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+            style={{ 
+              backgroundColor: "var(--bg-primary)",
+              color: "var(--text-primary)",
+              borderColor: "var(--border-primary)"
+            }}
             id="genre"
             type="text"
             name="genre"
@@ -138,20 +158,30 @@ const BookForm: React.FC = () => {
               onChange={handleChange}
               className="mr-2"
             />
-            <span className="text-gray-300 text-sm font-bold">I have read this book</span>
+            <span className="text-sm font-bold" style={{ color: "var(--text-primary)" }}>I have read this book</span>
           </label>
         </div>
         
         <div className="flex items-center justify-between">
           <button
-            className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            style={{
+              backgroundColor: "var(--accent-primary)",
+              color: "white",
+              transition: "background-color 0.2s ease"
+            }}
+            className="font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:shadow-md"
             type="submit"
             disabled={submitting}
           >
             {submitting ? 'Adding...' : 'Add Book'}
           </button>
           <button
-            className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            style={{
+              backgroundColor: "var(--bg-tertiary)",
+              color: "var(--text-primary)",
+              transition: "background-color 0.2s ease"
+            }}
+            className="font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:shadow-md"
             type="button"
             onClick={() => navigate('/')}
           >

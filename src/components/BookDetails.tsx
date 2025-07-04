@@ -27,27 +27,33 @@ const BookDetails: React.FC<BookDetailsProps> = ({ bookId }) => {
 
   return (
     <div className="book-details">
-      <h2 className="text-2xl font-bold mb-4" data-testid="book-title">{book.title}</h2>
+      <h2 className="text-2xl font-bold mb-4" 
+          style={{ color: "var(--text-primary)" }}
+          data-testid="book-title">{book.title}</h2>
 
-      <div className="bg-[var(--bg-secondary)] rounded-lg p-6 shadow-lg">
+      <div className="rounded-lg p-6 shadow-lg" style={{ backgroundColor: "var(--bg-secondary)" }}>
         <div className="mb-4">
-          <h3 className="text-lg font-semibold text-gray-300">Author</h3>
-          <p className="text-white">{book.author}</p>
+          <h3 className="text-lg font-semibold" style={{ color: "var(--text-secondary)" }}>Author</h3>
+          <p style={{ color: "var(--text-primary)" }}>{book.author}</p>
         </div>
         
         <div className="mb-4">
-          <h3 className="text-lg font-semibold text-gray-300">Year</h3>
-          <p className="text-white">{book.year}</p>
+          <h3 className="text-lg font-semibold" style={{ color: "var(--text-secondary)" }}>Year</h3>
+          <p style={{ color: "var(--text-primary)" }}>{book.year}</p>
         </div>
         
         <div className="mb-4">
-          <h3 className="text-lg font-semibold text-gray-300">Genre</h3>
-          <p className="text-white">{book.genre}</p>
+          <h3 className="text-lg font-semibold" style={{ color: "var(--text-secondary)" }}>Genre</h3>
+          <p style={{ color: "var(--text-primary)" }}>{book.genre}</p>
         </div>
         
         <div className="mb-4">
-          <h3 className="text-lg font-semibold text-gray-300">Status</h3>
-          <p className={`inline-block px-3 py-1 rounded-full ${book.isRead ? 'bg-green-800 text-green-200' : 'bg-yellow-800 text-yellow-200'}`}>
+          <h3 className="text-lg font-semibold" style={{ color: "var(--text-secondary)" }}>Status</h3>
+          <p className="inline-block px-3 py-1 rounded-full" 
+             style={{ 
+               backgroundColor: book.isRead ? "var(--bg-success)" : "var(--bg-warning)",
+               color: book.isRead ? "var(--text-success)" : "var(--text-warning)"
+             }}>
             {book.isRead ? 'Read' : 'Unread'}
           </p>
         </div>

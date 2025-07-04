@@ -1,0 +1,105 @@
+/* Theme components CSS - Enhances themed components with CSS variables */
+
+/* Navbar styling */
+.navbar-themed {
+  background-color: var(--navbar-bg);
+  border-bottom: 1px solid var(--navbar-border);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.navbar-brand-text {
+  color: var(--text-primary);
+  transition: color 0.3s ease;
+}
+
+/* Active navigation link */
+.navbar-nav-link.active {
+  background-color: var(--accent-primary);
+  color: white;
+}
+
+/* Default navigation link */
+.navbar-nav-link {
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+}
+
+.navbar-nav-link:hover:not(.active) {
+  background-color: var(--bg-secondary);
+}
+
+/* Mobile menu styling */
+.navbar-mobile-button {
+  color: var(--navbar-text);
+}
+
+/* Add button styling */
+.navbar-add-button {
+  background-color: var(--accent-primary);
+  color: white;
+  border-radius: 9999px;
+  padding: 0.5rem;
+  transition: background-color 0.2s ease;
+}
+
+.navbar-add-button:hover {
+  background-color: var(--accent-hover);
+}
+
+/* Cards and containers */
+.book-list-container,
+.book-details-container {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow-medium);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+}
+
+/* Forms */
+input, select, textarea {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-primary);
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 2px var(--accent-primary-light);
+}
+
+/* Buttons */
+button.btn-primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+button.btn-primary:hover {
+  background-color: var(--primary-dark);
+}
+
+button.btn-secondary {
+  background-color: var(--secondary);
+  color: white;
+}
+
+/* Dropdowns */
+.dropdown-menu {
+  background-color: var(--dropdown-bg);
+  border: 1px solid var(--dropdown-border);
+  box-shadow: var(--shadow-medium);
+}
+
+.dropdown-item:hover {
+  background-color: var(--dropdown-hover);
+}
+
+/* Footer */
+footer {
+  background-color: var(--bg-footer);
+  color: var(--text-secondary);
+}

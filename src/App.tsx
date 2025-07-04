@@ -1,12 +1,10 @@
-import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
-import { ConsentProvider, ConsentBanner, ConsentModal, useConsent } from '@asafarim/react-privacy-consent';
-import { globalConsentConfig } from './config/consentConfig';
+import { Suspense, useState } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import '@asafarim/react-privacy-consent/styles.css';
 import BookList from "./components/BookList";
 import BookDetails from "./components/BookDetails";
 import "./App.css";
-import Navbar from "./layout/Navbar";
+import Layout from "./layout";
 import BookForm from "./components/BookForm";
 import AppInfo from "./components/AppInfo";
 import "./components/AppInfo.css";
@@ -15,27 +13,31 @@ import ThemeDebug from "./components/ThemeDebug";
 import {ThemeDemo} from "./components/ThemeDemo";
 import PrivacyConsentDemo from "./components/PrivacyConsentDemo";
 import MarkdownUtils from "./components/MarkdownUtils";
+import './styles/responsive.css';
+import AuthPage from "./pages/AuthPage";
+import { useAuth } from "./contexts/AuthContext";
+
+// Protected route component
+const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+  const { isLoggedIn } = useAuth();
+  
+  if (!isLoggedIn) {
+    return <Navigate to="/auth" replace />;
+  }
+  
+  return children;
+};
 
 // Wrapper component to connect ConsentModal to consent context
-function ConsentModalWrapper() {
-  const { isPreferencesVisible, hidePreferences } = useConsent();
-  
-  return (
-    <ConsentModal 
-      isOpen={isPreferencesVisible}
-      onClose={hidePreferences}
-    />
-  );
-}
 
 function App() {
   const [selectedBookId, setSelectedBookId] = useState<string | null>(null);
+  
   return (
-    <ConsentProvider config={globalConsentConfig}>
-      <div className="app-container">
-        <ThemeDebug />
-        <Navbar />
-        <main className="main-content">
+    <>
+      <ThemeDebug />
+      <Layout>
+        <Suspense fallback={<div className="text-center py-8">Loading...</div>}>
           <Routes>
             <Route
               path="/"
@@ -60,7 +62,15 @@ function App() {
                 </div>
               }
             />
-            <Route path="/add" element={<BookForm />} />
+            <Route 
+              path="/add" 
+              element={
+                <ProtectedRoute>
+                  <BookForm />
+                </ProtectedRoute>
+              } 
+            />
+            <Route path="/auth" element={<AuthPage />} />
             <Route path="/edit/:id" element={<BookForm />} />
             <Route path="/info" element={<AppInfo />} />
             <Route path="/dd" element={<TestComponent />} />
@@ -83,15 +93,9 @@ function App() {
               }
             />
           </Routes>
-        </main>
-        <footer className="app-footer">
-          <p> {new Date().getFullYear()} ASafariM Bibliography</p>
-        </footer>
-      </div>
-      {/* Global consent components */}
-      <ConsentBanner />
-      <ConsentModalWrapper />
-    </ConsentProvider>
+        </Suspense>
+      </Layout>
+    </>
   );
 }
 

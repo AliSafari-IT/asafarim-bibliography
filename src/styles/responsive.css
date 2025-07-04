@@ -1,0 +1,136 @@
+/* Responsive utilities */
+
+.navbar-themed {
+  background-color: var(--background);
+  color: var(--text);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* Responsive Typography */
+.responsive-text-xs {
+  font-size: 0.75rem; /* 12px */
+}
+
+.responsive-text-sm {
+  font-size: 0.875rem; /* 14px */
+}
+
+.responsive-text-base {
+  font-size: 1rem; /* 16px */
+}
+
+.responsive-text-lg {
+  font-size: 1.125rem; /* 18px */
+}
+
+.responsive-text-xl {
+  font-size: 1.25rem; /* 20px */
+}
+
+/* Responsive spacing */
+.responsive-p {
+  padding: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .responsive-p {
+    padding: 0.75rem;
+  }
+  
+  .responsive-text-xs {
+    font-size: 0.8125rem; /* 13px */
+  }
+  
+  .responsive-text-sm {
+    font-size: 0.9375rem; /* 15px */
+  }
+}
+
+@media (min-width: 768px) {
+  .responsive-p {
+    padding: 1rem;
+  }
+}
+
+/* Navbar specific responsive styles */
+.navbar-brand-text {
+  transition: font-size 0.3s ease;
+}
+
+@media (max-width: 640px) {
+  .navbar-brand-text {
+    font-size: 1rem;
+  }
+}
+
+/* Mobile menu styles */
+.navbar-mobile-button {
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+}
+
+.navbar-mobile-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.5);
+}
+
+.navbar-nav-link {
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+}
+
+.navbar-nav-link.active {
+  background-color: rgba(79, 70, 229, 0.1);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.navbar-add-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  background-color: var(--primary);
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.navbar-add-button:hover {
+  background-color: var(--primary-dark);
+}
+
+/* Container responsiveness */
+.responsive-container {
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 640px) {
+  .responsive-container {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .responsive-container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .responsive-container {
+    max-width: 1280px;
+  }
+}

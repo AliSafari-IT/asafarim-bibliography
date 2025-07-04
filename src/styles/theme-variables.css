@@ -63,6 +63,8 @@
   --bg-info: #4f6bed;
   --bg-inverted: #201f1f;
   --bg-transparent: rgba(255, 255, 255, 0);
+  --overlay-bg: rgba(0, 0, 0, 0.6);
+  --bg-input: var(--bg-primary);
 
   --text-primary: #111827;
   --text-secondary: #4b5563;
