@@ -1,0 +1,405 @@
+/* Professional Dropdown Menu Styles */
+
+/* Base container */
+.pro-dropdown {
+  position: relative;
+  display: inline-block;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* Dropdown content */
+.pro-dropdown__content {
+  position: absolute;
+  z-index: 1000;
+  min-width: 220px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin-top: 8px;
+  animation: dropdown-appear 0.2s ease-out;
+  transform-origin: top center;
+  /* ARIA attributes should be set via HTML/React, not CSS */
+}
+
+@keyframes dropdown-appear {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Menu items */
+.pro-dropdown__item {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+  color: #374151;
+  outline: none;
+}
+
+.pro-dropdown__item:focus-visible {
+  box-shadow: 0 0 0 2px #3b82f6 inset;
+  background-color: rgba(59, 130, 246, 0.05);
+  outline: none;
+}
+
+.pro-dropdown__item:hover {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+.pro-dropdown__item--active {
+  background-color: rgba(59, 130, 246, 0.08);
+  color: #3b82f6;
+  font-weight: 500;
+}
+
+/* Item components */
+.pro-dropdown__item-icon {
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  font-size: 16px;
+}
+
+.pro-dropdown__item-label {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+}
+
+.pro-dropdown__item-arrow {
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+/* Submenu styling */
+.pro-dropdown__submenu {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  margin-left: 0;
+  min-width: 180px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  display: none;
+  z-index: 1001;
+  animation: submenu-appear 0.2s ease-out;
+}
+
+@keyframes submenu-appear {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.pro-dropdown__submenu--open {
+  display: block;
+}
+
+/* Improved hover zone to prevent accidental closing */
+.pro-dropdown__item--has-children::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -20px; /* Creates a hover buffer zone */
+  width: 20px;
+  height: 100%;
+  background: transparent;
+}
+
+/* Dividers */
+.pro-dropdown__divider {
+  height: 1px;
+  background-color: #e5e7eb;
+  margin: 6px 0;
+}
+
+/* Section headers */
+.pro-dropdown__section-header {
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background-color: #f9fafb;
+}
+
+/* Variants */
+.pro-dropdown--navbar .pro-dropdown__content {
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.pro-dropdown--navbar .pro-dropdown__item {
+  padding: 10px 16px;
+  font-size: 14px;
+}
+
+.pro-dropdown--minimal .pro-dropdown__content {
+  border-radius: 6px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.pro-dropdown--minimal .pro-dropdown__item {
+  padding: 8px 12px;
+}
+
+.pro-dropdown--sidebar .pro-dropdown__content {
+  position: static;
+  box-shadow: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pro-dropdown--sidebar .pro-dropdown__submenu {
+  position: static;
+  box-shadow: none;
+  border: none;
+  padding-left: 28px;
+  animation: none;
+}
+
+.pro-dropdown--sidebar .pro-dropdown__item-arrow svg {
+  transform: rotate(90deg);
+}
+
+/* Size variants */
+.pro-dropdown--sm .pro-dropdown__item {
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+.pro-dropdown--md .pro-dropdown__item {
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+.pro-dropdown--lg .pro-dropdown__item {
+  padding: 12px 20px;
+  font-size: 15px;
+}
+
+/* Dark theme */
+.pro-dropdown--dark .pro-dropdown__content {
+  background-color: #1f2937;
+  border-color: #374151;
+}
+
+.pro-dropdown--dark .pro-dropdown__item {
+  color: #e5e7eb;
+}
+
+.pro-dropdown--dark .pro-dropdown__item:hover {
+  background-color: #374151;
+  color: #f9fafb;
+}
+
+.pro-dropdown--dark .pro-dropdown__divider {
+  background-color: #4b5563;
+}
+
+.pro-dropdown--dark .pro-dropdown__section-header {
+  color: #9ca3af;
+  background-color: #111827;
+}
+
+/* Fix for submenu hover issues */
+.pro-dropdown__item-wrapper {
+  position: relative;
+}
+
+.pro-dropdown__submenu {
+  /* Add a small delay for smoother interactions */
+  transition: opacity 0.15s ease, visibility 0.15s ease;
+}
+
+/* Custom triggers */
+.pro-dropdown__trigger {
+  cursor: pointer;
+}
+
+/* Button trigger */
+.pro-dropdown__trigger--button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  background: linear-gradient(to right, #3b82f6, #6366f1);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.pro-dropdown__trigger--button:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transform: translateY(-1px);
+}
+
+/* Icon trigger */
+.pro-dropdown__trigger--icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #f3f4f6;
+  transition: all 0.2s ease;
+}
+
+.pro-dropdown__trigger--icon:hover {
+  background-color: #e5e7eb;
+}
+
+/* Text trigger */
+.pro-dropdown__trigger--text {
+  color: #3b82f6;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.pro-dropdown__trigger--text:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+/* Avatar trigger */
+.pro-dropdown__trigger--avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #3b82f6;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.pro-dropdown__trigger--avatar:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transform: scale(1.05);
+}
+
+/* Apply these classes to the dd-menu component */
+.dd-menu {
+  position: relative;
+  display: inline-block;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.dd-menu__content {
+  position: absolute;
+  z-index: 1000;
+  min-width: 220px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin-top: 8px;
+  animation: dropdown-appear 0.2s ease-out;
+}
+
+.dd-menu__item {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  position: relative;
+  color: #374151;
+}
+
+.dd-menu__item:hover {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+.dd-menu__item--active {
+  background-color: rgba(59, 130, 246, 0.08);
+  color: #3b82f6;
+  font-weight: 500;
+}
+
+.dd-menu__item-icon {
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  font-size: 16px;
+}
+
+.dd-menu__item-label {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+}
+
+.dd-menu__item-arrow {
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.dd-menu__submenu {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  margin-left: 0;
+  min-width: 180px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  display: none;
+  z-index: 1001;
+  animation: submenu-appear 0.2s ease-out;
+}
+
+.dd-menu__submenu--open {
+  display: block;
+}

@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#root {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Theme-aware Navbar styles */
+.navbar-themed {
+  background-color: var(--theme-color-background-secondary);
+  border-bottom: 1px solid var(--theme-color-border);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.navbar-brand-text {
+  color: var(--theme-color-text);
+  transition: color 0.3s ease;
+}
+
+.navbar-nav-link {
+  color: var(--theme-color-text-secondary);
+  transition: color 0.3s ease, background-color 0.3s ease;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.navbar-nav-link:hover {
+  background-color: var(--theme-color-hover);
+  color: var(--theme-color-text);
+}
+
+.navbar-nav-link.active {
+  background-color: var(--theme-color-active);
+  color: var(--theme-color-text);
+}
+
+.navbar-mobile-button {
+  color: var(--theme-color-text-secondary);
+  background-color: transparent;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+}
+
+.navbar-mobile-button:hover {
+  background-color: var(--theme-color-hover);
+  color: var(--theme-color-text);
+}
+
+.navbar-add-button {
+  background-color: var(--theme-color-primary);
+  color: white;
+  border-radius: 9999px;
+  padding: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.navbar-add-button:hover {
+  background-color: var(--theme-color-primary-hover);
+}
+
+.navbar-add-button:focus {
+  outline: 2px solid var(--theme-color-focus);
+  outline-offset: 2px;
+}

@@ -1,0 +1,78 @@
+@import url('../src/styles/theme-variables.css');
+@import url('../src/styles/enhanced-dropdown.css');
+@import url('../src/styles/dropdown-fix.css');
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--background-color);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  background-color: var(--background-color);
+  color: var(--text-primary);
+}
+
+.app-info-wrapper {
+  grid-column: 1 / -1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.bibliography-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .bibliography-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.book-list-container {
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-large);
+}
+
+.book-details-container {
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #888;
+  padding: 2rem;
+}
+
+.app-footer {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #1a1a1a;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #888;
+}

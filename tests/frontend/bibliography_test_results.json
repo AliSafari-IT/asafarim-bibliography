@@ -1,0 +1,228 @@
+{
+    "numTotalTestSuites": 11,
+    "numPassedTestSuites": 6,
+    "numFailedTestSuites": 5,
+    "numPendingTestSuites": 0,
+    "numTotalTests": 9,
+    "numPassedTests": 1,
+    "numFailedTests": 8,
+    "numPendingTests": 0,
+    "numTodoTests": 0,
+    "startTime": 1743015948659,
+    "success": false,
+    "testResults": [
+        {
+            "assertionResults": [],
+            "startTime": 1743015948659,
+            "endTime": 1743015948659,
+            "status": "failed",
+            "message": "describe is not defined",
+            "name": "D:/repos/ASafariM/ASafariM.Clients/asafarim-bibliography/src/store/slices/bookSlice.spec.ts"
+        },
+        {
+            "assertionResults": [
+                {
+                    "ancestorTitles": [
+                        "",
+                        "Redux Hooks",
+                        "useAppDispatch"
+                    ],
+                    "fullName": " Redux Hooks useAppDispatch should return a dispatch function",
+                    "status": "failed",
+                    "title": "should return a dispatch function",
+                    "duration": 48,
+                    "failureMessages": [
+                        "document is not defined"
+                    ],
+                    "location": {
+                        "line": 75,
+                        "column": 21
+                    }
+                },
+                {
+                    "ancestorTitles": [
+                        "",
+                        "Redux Hooks",
+                        "useAppDispatch"
+                    ],
+                    "fullName": " Redux Hooks useAppDispatch should correctly dispatch actions",
+                    "status": "failed",
+                    "title": "should correctly dispatch actions",
+                    "duration": 5,
+                    "failureMessages": [
+                        "document is not defined"
+                    ],
+                    "location": {
+                        "line": 75,
+                        "column": 21
+                    }
+                },
+                {
+                    "ancestorTitles": [
+                        "",
+                        "Redux Hooks",
+                        "useAppDispatch"
+                    ],
+                    "fullName": " Redux Hooks useAppDispatch should dispatch actions with payloads",
+                    "status": "failed",
+                    "title": "should dispatch actions with payloads",
+                    "duration": 8,
+                    "failureMessages": [
+                        "document is not defined"
+                    ],
+                    "location": {
+                        "line": 75,
+                        "column": 21
+                    }
+                },
+                {
+                    "ancestorTitles": [
+                        "",
+                        "Redux Hooks",
+                        "useAppSelector"
+                    ],
+                    "fullName": " Redux Hooks useAppSelector should select loading state from the store",
+                    "status": "failed",
+                    "title": "should select loading state from the store",
+                    "duration": 2,
+                    "failureMessages": [
+                        "document is not defined"
+                    ],
+                    "location": {
+                        "line": 75,
+                        "column": 21
+                    }
+                },
+                {
+                    "ancestorTitles": [
+                        "",
+                        "Redux Hooks",
+                        "useAppSelector"
+                    ],
+                    "fullName": " Redux Hooks useAppSelector should select books array from the store",
+                    "status": "failed",
+                    "title": "should select books array from the store",
+                    "duration": 3,
+                    "failureMessages": [
+                        "document is not defined"
+                    ],
+                    "location": {
+                        "line": 75,
+                        "column": 21
+                    }
+                },
+                {
+                    "ancestorTitles": [
+                        "",
+                        "Redux Hooks",
+                        "useAppSelector"
+                    ],
+                    "fullName": " Redux Hooks useAppSelector should select error state from the store",
+                    "status": "failed",
+                    "title": "should select error state from the store",
+                    "duration": 4,
+                    "failureMessages": [
+                        "document is not defined"
+                    ],
+                    "location": {
+                        "line": 75,
+                        "column": 21
+                    }
+                },
+                {
+                    "ancestorTitles": [
+                        "",
+                        "Redux Hooks",
+                        "useAppSelector"
+                    ],
+                    "fullName": " Redux Hooks useAppSelector should select selectedBook from the store",
+                    "status": "failed",
+                    "title": "should select selectedBook from the store",
+                    "duration": 14,
+                    "failureMessages": [
+                        "document is not defined"
+                    ],
+                    "location": {
+                        "line": 75,
+                        "column": 21
+                    }
+                },
+                {
+                    "ancestorTitles": [
+                        "",
+                        "Redux Hooks",
+                        "useAppSelector"
+                    ],
+                    "fullName": " Redux Hooks useAppSelector should handle complex selectors with derived data",
+                    "status": "failed",
+                    "title": "should handle complex selectors with derived data",
+                    "duration": 8,
+                    "failureMessages": [
+                        "document is not defined"
+                    ],
+                    "location": {
+                        "line": 75,
+                        "column": 21
+                    }
+                }
+            ],
+            "startTime": 1743018233090,
+            "endTime": 1743018233184,
+            "status": "failed",
+            "message": "",
+            "name": "D:/repos/ASafariM/ASafariM.Clients/asafarim-bibliography/src/hooks/reduxHooks.spec.tsx"
+        },
+        {
+            "assertionResults": [],
+            "startTime": 1743015948659,
+            "endTime": 1743015948659,
+            "status": "failed",
+            "message": "describe is not defined",
+            "name": "D:/repos/ASafariM/ASafariM.Clients/asafarim-bibliography/src/components/BookForm.spec.tsx"
+        },
+        {
+            "assertionResults": [],
+            "startTime": 1743015948659,
+            "endTime": 1743015948659,
+            "status": "failed",
+            "message": "expect is not defined",
+            "name": "D:/repos/ASafariM/ASafariM.Clients/asafarim-bibliography/src/components/AppInfo.spec.tsx"
+        },
+        {
+            "assertionResults": [
+                {
+                    "ancestorTitles": [
+                        "",
+                        "Basic Test"
+                    ],
+                    "fullName": " Basic Test should pass",
+                    "status": "passed",
+                    "title": "should pass",
+                    "duration": 17,
+                    "failureMessages": []
+                }
+            ],
+            "startTime": 1743018237293,
+            "endTime": 1743018237310,
+            "status": "passed",
+            "message": "",
+            "name": "D:/repos/ASafariM/ASafariM.Clients/asafarim-bibliography/src/basic.test.ts"
+        },
+        {
+            "assertionResults": [],
+            "startTime": 1743015948659,
+            "endTime": 1743015948659,
+            "status": "failed",
+            "message": "expect is not defined",
+            "name": "D:/repos/ASafariM/ASafariM.Clients/asafarim-bibliography/src/layout/Navbar.spec.tsx"
+        },
+        {
+            "assertionResults": [],
+            "startTime": 1743015948659,
+            "endTime": 1743015948659,
+            "status": "failed",
+            "message": "describe is not defined",
+            "name": "D:/repos/ASafariM/ASafariM.Clients/asafarim-bibliography/src/components/BookDetails.spec.tsx"
+        }
+    ]
+}

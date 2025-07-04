@@ -1,0 +1,68 @@
+/* Dropdown visibility fixes for dark mode */
+
+/* Ensure dd-menu dropdowns are visible in dark mode */
+[data-theme="dark"] .dd-menu__content {
+  background-color: var(--dropdown-bg) !important;
+  border: 1px solid var(--dropdown-border) !important;
+  color: var(--text-primary) !important;
+  box-shadow: var(--shadow-large) !important;
+}
+
+[data-theme="dark"] .dd-menu__item {
+  color: var(--text-primary) !important;
+  background-color: transparent !important;
+}
+
+[data-theme="dark"] .dd-menu__item:hover {
+  background-color: var(--dropdown-hover) !important;
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .dd-menu__item-label {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .dd-menu__trigger {
+  color: var(--text-primary) !important;
+  background-color: var(--dropdown-bg) !important;
+  border: 1px solid var(--dropdown-border) !important;
+}
+
+[data-theme="dark"] .dd-menu__trigger:hover {
+  background-color: var(--dropdown-hover) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Fix for custom triggers like navigation buttons */
+[data-theme="dark"] .dd-menu .custom-trigger {
+  color: var(--text-primary) !important;
+  background-color: var(--dropdown-bg) !important;
+  border: 1px solid var(--dropdown-border) !important;
+}
+
+[data-theme="dark"] .dd-menu .custom-trigger:hover {
+  background-color: var(--dropdown-hover) !important;
+}
+
+/* Ensure StableDropdown wrapper is visible */
+[data-theme="dark"] .stable-dropdown-wrapper {
+  color: var(--text-primary) !important;
+}
+
+/* Force visibility for any invisible dropdown elements */
+[data-theme="dark"] .dd-menu,
+[data-theme="dark"] .dropdown,
+[data-theme="dark"] [class*="dropdown"] {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Specific fix for navigation and dd-down buttons */
+[data-theme="dark"] .navbar .dd-menu__trigger,
+[data-theme="dark"] .nav-item .dd-menu__trigger {
+  color: var(--text-primary) !important;
+  background: var(--dropdown-bg) !important;
+  border: 1px solid var(--dropdown-border) !important;
+  padding: 8px 12px !important;
+  border-radius: 4px !important;
+}
