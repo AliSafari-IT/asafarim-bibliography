@@ -79,6 +79,9 @@
   padding: 0.5rem 0.75rem;
   border-radius: 0.375rem;
   transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  height: 2.5rem; /* Match the height of other navbar elements */
 }
 
 .navbar-nav-link.active {
