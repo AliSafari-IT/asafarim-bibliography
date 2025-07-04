@@ -93,16 +93,14 @@ export default function Navbar() {
       key="navbar"
       aria-label="Main Navigation"
     >
-      {({ open }) => (
+      {({ open, close }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
-                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-inset hover:bg-opacity-20 hover:bg-gray-200 dark:hover:bg-gray-700" 
+                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 hover:bg-gray-200 dark:hover:bg-gray-600 border border-gray-300 dark:border-gray-600" 
                   style={{ 
-                    color: "var(--navbar-text)",
-                    backgroundColor: "transparent",
                     transition: "background-color 0.2s ease"
                   }}>
                   <span className="absolute -inset-0.5" />
@@ -260,6 +258,7 @@ export default function Navbar() {
                     aria-current={item.name === activeItem ? "page" : undefined}
                     onClick={() => {
                       handleNavigation(item.name);
+                      close();
                     }}
                   >
                     {item.name}
@@ -285,6 +284,7 @@ export default function Navbar() {
                         backgroundColor: "var(--bg-secondary)",
                         color: "var(--text-primary)"
                       }}
+                      onClick={() => close()}
                     >
                       <span className="mr-3 text-xl">{item.icon}</span>
                       <span className="font-medium">{item.label}</span>
@@ -310,6 +310,7 @@ export default function Navbar() {
                       backgroundColor: "var(--bg-secondary)",
                       color: "var(--text-primary)"
                     }}
+                    onClick={() => close()}
                   >
                     <span className="mr-3 text-xl">{item.icon}</span>
                     <span className="font-medium">{item.label}</span>
