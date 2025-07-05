@@ -18,10 +18,7 @@ import { ThemeProvider } from "@asafarim/react-themes";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ThemeProvider
-      defaultMode="light"
-      persistMode={true}
-    >
+    <ThemeProvider>
       <Provider store={store}>
         <AuthProvider>
           <ConsentProvider config={globalConsentConfig}>
@@ -29,7 +26,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               <App />
             </BrowserRouter>
             <ConsentBanner />
-            <ConsentModal isOpen={false} onClose={() => {}} />
+            <ConsentModal />
           </ConsentProvider>
         </AuthProvider>
       </Provider>

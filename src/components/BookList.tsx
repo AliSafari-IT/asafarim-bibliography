@@ -16,7 +16,7 @@ const BookList: React.FC<BookListProps> = ({ onSelectBook }) => {
   const dispatch = useAppDispatch();
   const { books, loading, error } = useAppSelector(state => state.books);
   const [editBook, setEditBook] = useState<Book | null>(null);
-  const { isLoggedIn } = useAuth();
+  const { /* isLoggedIn */ } = useAuth(); // Not used but kept for future use
 
   useEffect(() => {
     dispatch(fetchBooks());

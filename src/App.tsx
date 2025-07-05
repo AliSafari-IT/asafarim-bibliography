@@ -1,4 +1,4 @@
-import { Suspense, useState } from "react";
+import React, { Suspense, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import '@asafarim/react-privacy-consent/styles.css';
 import BookList from "./components/BookList";
@@ -18,6 +18,9 @@ import AuthPage from "./pages/AuthPage";
 import ReferencesPage from "./pages/ReferencesPage";
 import CitationsPage from "./pages/CitationsPage";
 import { useAuth } from "./contexts/AuthContext";
+
+// Lazy load the Google Auth Callback component
+const GoogleAuthCallback = React.lazy(() => import('./components/GoogleAuthCallback'));
 
 // Protected route component
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
@@ -73,6 +76,12 @@ function App() {
               } 
             />
             <Route path="/auth" element={<AuthPage />} />
+            {/* Add specific route for Google OAuth callback */}
+            <Route path="/auth/callback" element={
+              <Suspense fallback={<div>Loading...</div>}>
+                <GoogleAuthCallback />
+              </Suspense>
+            } />
             <Route 
               path="/references" 
               element={

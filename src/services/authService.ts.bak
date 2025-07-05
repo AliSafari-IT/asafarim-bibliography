@@ -90,10 +90,9 @@ const handleGoogleAuthCode = async (
   try {
     // Use the exact redirect URI that's registered in Google Cloud Console
     // For localhost, use /auth suffix to match development config
-    // For production, use /auth/callback to match production config
     const exactRedirectUri = window.location.hostname === 'localhost' ? 
       `${window.location.origin}/auth` : 
-      `https://bibliography.asafarim.com/auth/callback`;
+      `${window.location.origin}`;
     console.log(`Using exact redirect URI for token exchange: ${exactRedirectUri}`);
     
     // Try to exchange the code with our backend
@@ -211,7 +210,7 @@ const checkGoogleConfigIssues = (clientId: string, externalConfig: any) => {
   // Add /auth to the redirect URI to match Google Cloud Console configuration
   const exactRedirectUri = window.location.hostname === 'localhost' ? 
     `${window.location.origin}/auth` : 
-    `https://bibliography.asafarim.com/auth/callback`;
+    `${window.location.origin}`;
     
   console.log(`📌 Current origin: ${window.location.origin}`);
   console.log(`📌 Auth redirect URI: ${exactRedirectUri}`);
@@ -350,7 +349,7 @@ export const handleGoogleLogin = async (): Promise<GoogleAuthResponse | null> =>
         // Determine the correct redirect URI based on environment
         const exactRedirectUri = window.location.hostname === 'localhost' ? 
           `${window.location.origin}/auth` : 
-          `https://bibliography.asafarim.com/auth/callback`;
+          `${window.location.origin}`;
         
         console.log(`Initializing Google OAuth code flow with client ID: ${clientId.substring(0, 8)}...`);
         console.log(`Using redirect URI: ${exactRedirectUri}`);
@@ -384,6 +383,185 @@ export const handleGoogleLogin = async (): Promise<GoogleAuthResponse | null> =>
           console.error('Failed to initialize Google auth code client, falling back to One Tap:', error);
           // Fall back to One Tap Sign In if code flow fails
           tryGoogleOneTap(clientId, resolve, reject);
+        }
+            console.log('Google credential response received', credentialResponse);
+            
+            try {
+              // The credential is a JWT token containing user information
+              // We can either decode it here or send it to our backend
+              if (!credentialResponse.credential) {
+                throw new Error('No credential received from Google');
+              }
+              
+              // Option A: Send the credential to backend (recommended for production)
+              // Get the correct API URL based on the current environment
+              const apiBaseUrl = window.location.hostname === 'localhost' ? 
+                `http://localhost:5000` : 
+                window.location.origin;
+              const apiUrl = `${apiBaseUrl}/api/auth/google-token`;
+              
+              console.log(`Sending Google credential to backend at ${apiUrl}`);
+              
+              try {
+                const tokenResponse = await fetch(apiUrl, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ idToken: credentialResponse.credential }),
+                  credentials: 'include'
+                });
+                
+                if (tokenResponse.ok) {
+                  const data = await tokenResponse.json();
+                  
+                  // Get the user data from the response
+                  const userData: GoogleUser = {
+                    id: data.userId || data.sub || `g-${Date.now()}`,
+                    name: data.name || 'Google User',
+                    email: data.email || 'user@example.com',
+                    imageUrl: data.picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(data.name || 'Google User')}&background=random`,
+                  };
+                  
+                  const authResponse: GoogleAuthResponse = {
+                    user: userData,
+                    token: data.token || data.access_token || credentialResponse.credential,
+                  };
+                  
+                  // Save auth data to localStorage
+                  localStorage.setItem('auth_token', authResponse.token);
+                  localStorage.setItem('user_data', JSON.stringify(authResponse.user));
+                  localStorage.removeItem('using_mock_auth');
+                  
+                  resolve(authResponse);
+                  return;
+                }
+              } catch (backendError) {
+                console.warn('Backend API not available, falling back to local JWT decoding', backendError);
+                // Continue to fallback option if backend fails
+              }
+              
+              // Option B: Decode the JWT locally (fallback option)
+              // This is a simple JWT parsing - in production, you should validate the token
+              const payload = JSON.parse(atob(credentialResponse.credential.split('.')[1]));
+              console.log('Decoded Google credential payload:', payload);
+              
+              const userData: GoogleUser = {
+                id: payload.sub,
+                name: payload.name,
+                email: payload.email,
+                imageUrl: payload.picture,
+              };
+              
+              const authResponse: GoogleAuthResponse = {
+                user: userData,
+                token: credentialResponse.credential,
+              };
+              
+              localStorage.setItem('auth_token', authResponse.token);
+              localStorage.setItem('user_data', JSON.stringify(authResponse.user));
+              localStorage.removeItem('using_mock_auth');
+              
+              resolve(authResponse);
+            } catch (error) {
+              console.error('Error processing Google credential:', error);
+              reject(error);
+            }
+          },
+          auto_select: false
+        });          // Display the One Tap UI
+        window.google.accounts.id.prompt((notification: GooglePromptNotification) => {
+          console.log('Google One Tap prompt response:', {
+            isDisplayed: notification.isDisplayed(),
+            isNotDisplayed: notification.isNotDisplayed(),
+            isSkippedMoment: notification.isSkippedMoment(),
+            isDismissedMoment: notification.isDismissedMoment(),
+          });
+          
+          if (notification.isNotDisplayed()) {
+            console.error(`❌ Google One Tap not displayed. Reason: ${notification.getNotDisplayedReason()}`);
+            console.warn(`⚠️ Common fixes:`);
+            console.warn(`1. Make sure ${window.location.origin} is added as an authorized JavaScript origin in Google Cloud Console`);
+            console.warn(`2. Verify your OAuth consent screen is properly configured`);
+            console.warn(`3. Check that your app is running on HTTPS or localhost`);
+          } else if (notification.isSkippedMoment()) {
+            console.log(`⚠️ Google One Tap skipped. Reason: ${notification.getSkippedReason()}`);
+            
+            // Option 2: Fall back to Authorization Code flow if One Tap is not displayed
+            try {
+              if (!window.google?.accounts?.oauth2) {
+                throw new Error('Google OAuth API not loaded or initialized correctly');
+              }
+              
+              // Using the exact origin for redirect URI to match Google Cloud Console settings
+              const exactRedirectUri = window.location.hostname === 'localhost' ? 
+                `${window.location.origin}/auth` : 
+                `${window.location.origin}`;
+              console.log(`Using redirect URI: ${exactRedirectUri}`);
+              
+              const client = window.google.accounts.oauth2.initCodeClient({
+                client_id: clientId,
+                scope: 'email profile',
+                redirect_uri: exactRedirectUri,
+                callback: async (response: { code?: string }) => {
+                  if (!response.code) {
+                    reject(new Error('No authorization code received from Google'));
+                    return;
+                  }
+                  
+                  try {
+                    console.log('✅ Received auth code from Google OAuth flow');
+                    await handleGoogleAuthCode(response.code, redirectUri, resolve, reject);
+                  } catch (error) {
+                    console.error('Error processing auth code:', error);
+                    reject(error);
+                  }
+                }
+              });
+              
+              // Request authorization code
+              client.requestCode();
+            } catch (error) {
+              console.error('Failed to initialize Google auth code client:', error);
+              reject(error);
+            }
+          }
+        });
+        
+        // Option 3: Initialize traditional OAuth flow as a fallback method
+        try {
+          if (!window.google?.accounts?.oauth2) {
+            throw new Error('Google OAuth API not loaded or initialized correctly');
+          }
+          
+          // Initialize the client but don't automatically request code
+          // This is just prepared for manual triggering later if needed
+          const exactRedirectUri = window.location.hostname === 'localhost' ? 
+            `${window.location.origin}/auth` : 
+            `${window.location.origin}`;
+          window.google.accounts.oauth2.initCodeClient({
+            client_id: clientId,
+            scope: 'email profile',
+            redirect_uri: exactRedirectUri, // Using exact redirect URI to match Google Cloud Console
+            callback: async (response: { code?: string }) => {
+              if (!response.code) {
+                reject(new Error('No authorization code received from Google'));
+                return;
+              }
+              
+              try {
+                console.log('✅ Received auth code from Google OAuth flow (fallback)');
+                await handleGoogleAuthCode(response.code, redirectUri, resolve, reject);
+              } catch (error) {
+                console.error('Error processing auth code (fallback):', error);
+                reject(error);
+              }
+            }
+          });
+          
+          // We don't automatically call requestCode() here, as this is a fallback option
+          // client.requestCode();
+        } catch (error) {
+          console.error('Failed to initialize fallback Google auth client:', error);
+          // Don't reject here, as this is just a fallback initialization
         }
       } catch (error) {
         console.error('Google OAuth initialization error:', error);

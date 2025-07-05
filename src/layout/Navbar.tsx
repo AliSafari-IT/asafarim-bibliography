@@ -31,8 +31,8 @@ function classNames(...classes: string[]) {
 
 export default function Navbar() {
   const [activeItem, setActiveItem] = useState("Bibliography");
-  const { mode } = useTheme();
-  const { isLoggedIn } = useAuth();
+  const { theme } = useTheme();
+  const { /* isLoggedIn */ } = useAuth(); // Not used but kept for future use
 
   const handleNavigation = (name: string) => {
     setActiveItem(name);
@@ -161,7 +161,7 @@ export default function Navbar() {
                         className="dd-menu--default dd-menu--md dd-menu--navbar dd-menu--navbar--md"
                         closeOnClick={true}
                         size="md"
-                        theme={mode}
+                        theme={theme as any}
                         trigger={
                           <span
                             style={{
@@ -186,7 +186,7 @@ export default function Navbar() {
                       className="dd-menu--default dd-menu--md dd-menu--navbar dd-menu--navbar--md"
                       closeOnClick={true}
                       size="md"
-                      theme={mode}
+                      theme={theme as any}
                       trigger={
                         <span
                           style={{

@@ -1,0 +1,22 @@
+# Google OAuth Configuration Steps
+
+To fix the "redirect_uri_mismatch" error when using Google Sign-In, follow these steps:
+
+1. Go to the Google Cloud Console: https://console.cloud.google.com/
+2. Select your project
+3. Navigate to "APIs & Services" > "Credentials"
+4. Find and edit your OAuth 2.0 Client ID
+5. Under "Authorized redirect URIs", add both:
+   - https://bibliography.asafarim.com
+   - https://bibliography.asafarim.com/auth
+   
+6. Under "Authorized JavaScript origins", make sure you have:
+   - https://bibliography.asafarim.com
+
+7. Click "Save"
+
+8. For local development, also ensure you have:
+   - http://localhost:3004 as an Authorized JavaScript origin
+   - http://localhost:3004/auth as an Authorized redirect URI
+
+It may take up to 5 minutes for changes to take effect in Google's systems.

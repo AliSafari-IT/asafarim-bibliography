@@ -35,5 +35,15 @@ export default defineConfig({
         }
       }
     }
+  },
+  optimizeDeps: {
+    esbuildOptions: {
+      tsconfigRaw: {
+        compilerOptions: {
+          target: 'esnext',
+          strict: true
+        }
+      }
+    }
   }
 })
