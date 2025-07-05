@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
 import { fetchBooks } from '../store/slices/bookSlice';
 import { Book } from '../types/Book';
 import DatabaseErrorMessage from '../components/DatabaseErrorMessage';
-import { DocumentDuplicateIcon, PrinterIcon } from '@heroicons/react/24/outline';
+import { DocumentDuplicateIcon, PrinterIcon, ShareIcon } from '@heroicons/react/24/outline';
 
 const ReferencesPage: React.FC = () => {
   const dispatch = useAppDispatch();

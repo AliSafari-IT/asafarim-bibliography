@@ -362,11 +362,10 @@
   overflow-x: auto;
   height: 100%;
   position: relative;
-  text-align: left !important;
-  white-space: pre !important;
+  text-align: left;
+  white-space: pre;
   tab-size: 2;
   -moz-tab-size: 2;
-  text-align-last: left !important;
 }
 
 .code-line {

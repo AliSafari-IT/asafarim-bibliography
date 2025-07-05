@@ -32,8 +32,7 @@ function classNames(...classes: string[]) {
 export default function Navbar() {
   const [activeItem, setActiveItem] = useState("Bibliography");
   const { mode } = useTheme();
-  // Auth state available for future use if needed
-  useAuth();
+  const { isLoggedIn } = useAuth();
 
   const handleNavigation = (name: string) => {
     setActiveItem(name);
