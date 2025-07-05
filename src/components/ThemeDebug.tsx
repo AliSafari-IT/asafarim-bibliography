@@ -5,7 +5,7 @@ export default function ThemeDebug() {
     return (
     <div style={{
       position: 'fixed',
-      top: '10px',
+      bottom: '10px',
       left: '10px',
       background: 'var(--bg-secondary)',
       color: 'var(--text-primary)',

@@ -15,6 +15,8 @@ import PrivacyConsentDemo from "./components/PrivacyConsentDemo";
 import MarkdownUtils from "./components/MarkdownUtils";
 import './styles/responsive.css';
 import AuthPage from "./pages/AuthPage";
+import ReferencesPage from "./pages/ReferencesPage";
+import CitationsPage from "./pages/CitationsPage";
 import { useAuth } from "./contexts/AuthContext";
 
 // Protected route component
@@ -71,7 +73,30 @@ function App() {
               } 
             />
             <Route path="/auth" element={<AuthPage />} />
-            <Route path="/edit/:id" element={<BookForm />} />
+            <Route 
+              path="/references" 
+              element={
+                <ProtectedRoute>
+                  <ReferencesPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/citations" 
+              element={
+                <ProtectedRoute>
+                  <CitationsPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/edit/:id" 
+              element={
+                <ProtectedRoute>
+                  <BookForm />
+                </ProtectedRoute>
+              } 
+            />
             <Route path="/info" element={<AppInfo />} />
             <Route path="/dd" element={<TestComponent />} />
             <Route path="/react-themes/demo" element={<ThemeDemo />} />

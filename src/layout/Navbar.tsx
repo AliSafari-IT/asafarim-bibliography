@@ -23,7 +23,6 @@ type NavigationItem = {
 
 const navigation: NavigationItem[] = [
   { name: "Bibliography", href: "/", current: true },
-  { name: "Add Book", href: "/add", current: false },
 ];
 
 function classNames(...classes: string[]) {
@@ -33,8 +32,9 @@ function classNames(...classes: string[]) {
 export default function Navbar() {
   const [activeItem, setActiveItem] = useState("Bibliography");
   const { mode } = useTheme();
-  const { isLoggedIn } = useAuth();
-  
+  // Auth state available for future use if needed
+  useAuth();
+
   const handleNavigation = (name: string) => {
     setActiveItem(name);
   };
@@ -85,26 +85,26 @@ export default function Navbar() {
     <Disclosure
       as="nav"
       className="navbar-themed sticky top-0 z-50 shadow-md"
-      style={{ 
+      style={{
         backgroundColor: "var(--navbar-bg)",
         borderBottom: "1px solid var(--navbar-border)",
-        transition: "background-color 0.3s ease, border-color 0.3s ease" 
+        transition: "background-color 0.3s ease, border-color 0.3s ease",
       }}
       key="navbar"
       aria-label="Main Navigation"
     >
-      {({ open }) => (
+      {({ open, close }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
-                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-inset hover:bg-opacity-20 hover:bg-gray-200 dark:hover:bg-gray-700" 
-                  style={{ 
-                    color: "var(--navbar-text)",
-                    backgroundColor: "transparent",
-                    transition: "background-color 0.2s ease"
-                  }}>
+                <Disclosure.Button
+                  className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 hover:bg-gray-200 dark:hover:bg-gray-600 border border-gray-300 dark:border-gray-600"
+                  style={{
+                    transition: "background-color 0.2s ease",
+                  }}
+                >
                   <span className="absolute -inset-0.5" />
                   <span className="sr-only">Open main menu</span>
                   {open ? (
@@ -114,18 +114,24 @@ export default function Navbar() {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+              <div className="flex flex-1 items-center justify-center sm:items-center sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <BookOpenIcon className="h-8 w-8" style={{ color: "var(--primary)" }} />{" "}
+                  <BookOpenIcon
+                    className="h-8 w-8"
+                    style={{ color: "var(--primary)" }}
+                  />{" "}
                   <span className="ml-2 text-xl font-bold navbar-brand-text truncate max-w-[180px] sm:max-w-none">
                     ASafariM Bibliography{" "}
-                    <span className="hidden md:inline" style={{ color: "var(--text-secondary)" }}>
+                    <span
+                      className="hidden md:inline"
+                      style={{ color: "var(--text-secondary)" }}
+                    >
                       (Redux Usage & demos)
                     </span>
                   </span>
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
-                  <div className="flex space-x-4">
+                  <div className="flex space-x-4 items-center h-full">
                     {navigation.map((item) => (
                       <Link
                         key={item.name}
@@ -134,7 +140,7 @@ export default function Navbar() {
                           item.name === activeItem
                             ? "navbar-nav-link active"
                             : "navbar-nav-link",
-                          ""
+                          "flex items-center"
                         )}
                         aria-current={
                           item.name === activeItem ? "page" : undefined
@@ -144,30 +150,32 @@ export default function Navbar() {
                         {item.name}
                       </Link>
                     ))}
-                    <DDMenu
-                      items={referencesMenuItems}
-                      placement="bottom"
-                      variant="default"
-                      style={{
-                        color: "#374151",
-                        fontWeight: "500",
-                      }}
-                      className="dd-menu--default dd-menu--md dd-menu--navbar dd-menu--navbar--md"
-                      closeOnClick={true}
-                      size="md"
-                      theme={mode}
-                      trigger={
-                        <span
-                          style={{
-                            color: "#374151",
-                            fontWeight: "500",
-                            cursor: "pointer",
-                          }}
-                        >
-                          Tools
-                        </span>
-                      }
-                    />
+                    <AuthGuard>
+                      <DDMenu
+                        items={referencesMenuItems}
+                        placement="bottom"
+                        variant="default"
+                        style={{
+                          color: "#374151",
+                          fontWeight: "500",
+                        }}
+                        className="dd-menu--default dd-menu--md dd-menu--navbar dd-menu--navbar--md"
+                        closeOnClick={true}
+                        size="md"
+                        theme={mode}
+                        trigger={
+                          <span
+                            style={{
+                              color: "#374151",
+                              fontWeight: "500",
+                              cursor: "pointer",
+                            }}
+                          >
+                            Tools
+                          </span>
+                        }
+                      />
+                    </AuthGuard>
                     <DDMenu
                       items={navMenuItems}
                       placement="bottom"
@@ -188,14 +196,14 @@ export default function Navbar() {
                             cursor: "pointer",
                           }}
                         >
-                          Goto Packages ↓
+                          Packages
                         </span>
                       }
                     />
                   </div>
                 </div>
               </div>
-              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 space-x-2">
+              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 space-x-2 h-full">
                 <AuthGuard
                   fallback={
                     <div className="hidden sm:block">
@@ -208,9 +216,7 @@ export default function Navbar() {
                     <SignOutButton />
                   </div>
                 </AuthGuard>
-                
-                <ThemeToggle />
-                
+
                 <AuthGuard
                   fallback={
                     <div className="sm:hidden">
@@ -220,30 +226,45 @@ export default function Navbar() {
                 >
                   <Link
                     to="/add"
-                    className="navbar-add-button focus:ring-2"
+                    className="navbar-add-button focus:ring-2 flex items-center justify-center relative group"
                     style={{
                       backgroundColor: "var(--accent-primary)",
                       color: "white",
                       borderRadius: "9999px",
                       padding: "0.5rem",
-                      transition: "background-color 0.2s ease"
+                      width: "2.5rem",
+                      height: "2.5rem",
+                      transition: "background-color 0.2s ease",
                     }}
                     onClick={() => handleNavigation("Add Book")}
+                    aria-label="Add Book"
                   >
-                    <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                    <BookOpenIcon className="h-6 w-6" aria-hidden="true" />
+                    <span className="absolute -top-1 -right-1">
+                      <PlusIcon
+                        className="h-4 w-4 bg-accent-primary text-white rounded-full p-0.5 shadow border-2 border-white"
+                        aria-hidden="true"
+                      />
+                    </span>
+                    <span className="sr-only">Add Book</span>
                   </Link>
                 </AuthGuard>
+
+                <ThemeToggle />
               </div>
             </div>
           </div>
 
           <Disclosure.Panel className="sm:hidden">
-            <div className="px-2 pb-3 pt-2 rounded-b-lg shadow-lg" style={{ 
-              backgroundColor: "var(--dropdown-bg)",
-              borderLeft: "1px solid var(--navbar-border)",
-              borderRight: "1px solid var(--navbar-border)",
-              borderBottom: "1px solid var(--navbar-border)"
-            }}>
+            <div
+              className="px-2 pb-3 pt-2 rounded-b-lg shadow-lg"
+              style={{
+                backgroundColor: "var(--dropdown-bg)",
+                borderLeft: "1px solid var(--navbar-border)",
+                borderRight: "1px solid var(--navbar-border)",
+                borderBottom: "1px solid var(--navbar-border)",
+              }}
+            >
               {/* Main navigation items */}
               <div className="grid grid-cols-2 gap-2 mb-4">
                 {navigation.map((item) => (
@@ -251,13 +272,20 @@ export default function Navbar() {
                     key={item.name}
                     to={item.href}
                     style={{
-                      backgroundColor: item.name === activeItem ? "var(--accent-primary)" : "var(--bg-secondary)",
-                      color: item.name === activeItem ? "white" : "var(--text-primary)"
+                      backgroundColor:
+                        item.name === activeItem
+                          ? "var(--accent-primary)"
+                          : "var(--bg-secondary)",
+                      color:
+                        item.name === activeItem
+                          ? "white"
+                          : "var(--text-primary)",
                     }}
                     className="px-4 py-3 rounded-lg text-center font-medium transition-all hover:shadow-md"
                     aria-current={item.name === activeItem ? "page" : undefined}
                     onClick={() => {
                       handleNavigation(item.name);
+                      close();
                     }}
                   >
                     {item.name}
@@ -266,33 +294,40 @@ export default function Navbar() {
               </div>
 
               {/* Tools & References items for mobile */}
-              <div className="pt-2 pb-1">
-                <p className="px-3 text-xs font-semibold uppercase tracking-wider" 
-                   style={{ color: "var(--text-secondary)" }}>
-                  Tools & References
-                </p>
-              </div>
-              <div className="grid grid-cols-1 gap-2 mb-4">
-                {referencesMenuItems.map((item) => (
-                  <Link
-                    key={item.id}
-                    to={item.link || "#"}
-                    className="flex items-center px-4 py-3 rounded-lg transition-all"
-                    style={{
-                      backgroundColor: "var(--bg-secondary)",
-                      color: "var(--text-primary)"
-                    }}
+              <AuthGuard>
+                <div className="pt-2 pb-1">
+                  <p
+                    className="px-3 text-xs font-semibold uppercase tracking-wider"
+                    style={{ color: "var(--text-secondary)" }}
                   >
-                    <span className="mr-3 text-xl">{item.icon}</span>
-                    <span className="font-medium">{item.label}</span>
-                  </Link>
-                ))}
-              </div>
+                    Tools & References
+                  </p>
+                </div>
+                <div className="grid grid-cols-1 gap-2 mb-4">
+                  {referencesMenuItems.map((item) => (
+                    <Link
+                      key={item.id}
+                      to={item.link || "#"}
+                      className="flex items-center px-4 py-3 rounded-lg transition-all"
+                      style={{
+                        backgroundColor: "var(--bg-secondary)",
+                        color: "var(--text-primary)",
+                      }}
+                      onClick={() => close()}
+                    >
+                      <span className="mr-3 text-xl">{item.icon}</span>
+                      <span className="font-medium">{item.label}</span>
+                    </Link>
+                  ))}
+                </div>
+              </AuthGuard>
 
               {/* Packages items for mobile */}
               <div className="pt-2 pb-1">
-                <p className="px-3 text-xs font-semibold uppercase tracking-wider"
-                   style={{ color: "var(--text-secondary)" }}>
+                <p
+                  className="px-3 text-xs font-semibold uppercase tracking-wider"
+                  style={{ color: "var(--text-secondary)" }}
+                >
                   Packages
                 </p>
               </div>
@@ -304,8 +339,9 @@ export default function Navbar() {
                     className="flex items-center px-4 py-3 rounded-lg transition-all"
                     style={{
                       backgroundColor: "var(--bg-secondary)",
-                      color: "var(--text-primary)"
+                      color: "var(--text-primary)",
                     }}
+                    onClick={() => close()}
                   >
                     <span className="mr-3 text-xl">{item.icon}</span>
                     <span className="font-medium">{item.label}</span>
@@ -314,7 +350,10 @@ export default function Navbar() {
               </div>
 
               {/* Login for mobile */}
-              <div className="pt-4 pb-2 mt-2" style={{ borderTop: "1px solid var(--border-primary)" }}>
+              <div
+                className="pt-4 pb-2 mt-2"
+                style={{ borderTop: "1px solid var(--border-primary)" }}
+              >
                 <AuthGuard
                   fallback={
                     <GoogleLoginButton className="w-full justify-center py-2" />
