@@ -140,8 +140,46 @@ const handleGoogleAuthCode = async (
   } catch (backendError) {
     console.error('Backend API error:', backendError);
     
-    // In development only: Fallback to a demo user if backend fails
-    console.warn('🔶 Backend unavailable - Using fallback auth data (FOR DEVELOPMENT ONLY)');
+    // In development only: Try to decode the auth code to get user info if possible
+    console.warn('🔶 Backend unavailable - Attempting to get user info from Google directly');
+    
+    try {
+      // Try to get user info from Google's userinfo endpoint using the auth code
+      // This is a fallback method when backend is not available
+      const googleUserInfoUrl = `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${code}`;
+      
+      const userInfoResponse = await fetch(googleUserInfoUrl).catch(() => null);
+      
+      if (userInfoResponse?.ok) {
+        const googleUserData = await userInfoResponse.json();
+        console.log('✅ Got user info from Google API:', googleUserData);
+        
+        const userData: GoogleUser = {
+          id: googleUserData.id || `g-${Date.now()}`,
+          name: googleUserData.name || 'Google User',
+          email: googleUserData.email || 'user@example.com',
+          imageUrl: googleUserData.picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(googleUserData.name || 'Google User')}&background=random`,
+        };
+        
+        const authResponse: GoogleAuthResponse = {
+          user: userData,
+          token: `google-fallback-token-${Date.now()}`,
+        };
+        
+        // Save auth data to localStorage with a flag indicating fallback mode
+        localStorage.setItem('auth_token', authResponse.token);
+        localStorage.setItem('user_data', JSON.stringify(authResponse.user));
+        localStorage.setItem('auth_fallback_mode', 'true');
+        
+        resolve(authResponse);
+        return;
+      }
+    } catch (googleApiError) {
+      console.error('Could not fetch user info from Google API:', googleApiError);
+    }
+    
+    // Final fallback: Use generic user info
+    console.warn('🔶 Using generic fallback user data (FOR DEVELOPMENT ONLY)');
     
     const userData: GoogleUser = {
       id: `g-${Date.now()}`,
@@ -272,14 +310,16 @@ const tryGoogleOneTap = (
         // Decode the JWT locally (fallback option)
         // This is a simple JWT parsing - in production, you should validate the token
         const payload = JSON.parse(atob(credentialResponse.credential.split('.')[1]));
-        console.log('Decoded Google credential payload:', payload);
+        console.log('✅ Decoded Google credential payload (One Tap):', payload);
         
         const userData: GoogleUser = {
           id: payload.sub,
-          name: payload.name,
+          name: payload.name || payload.given_name || 'Google User',
           email: payload.email,
-          imageUrl: payload.picture,
+          imageUrl: payload.picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(payload.name || 'Google User')}&background=random`,
         };
+        
+        console.log('✅ Using real Google user data from One Tap:', userData);
         
         const authResponse: GoogleAuthResponse = {
           user: userData,
@@ -289,6 +329,8 @@ const tryGoogleOneTap = (
         // Save auth data to localStorage
         localStorage.setItem('auth_token', authResponse.token);
         localStorage.setItem('user_data', JSON.stringify(authResponse.user));
+        localStorage.removeItem('using_mock_auth');
+        localStorage.removeItem('auth_fallback_mode'); // Clear fallback flag since we have real data
         
         resolve(authResponse);
       } catch (error) {
@@ -300,12 +342,21 @@ const tryGoogleOneTap = (
   
   // Display the One Tap UI
   window.google.accounts.id.prompt((notification: GooglePromptNotification) => {
-    console.log('Google One Tap prompt response:', {
+    console.log('🔐 Google One Tap prompt response:', {
       isDisplayed: notification.isDisplayed(),
       isNotDisplayed: notification.isNotDisplayed(),
       isSkippedMoment: notification.isSkippedMoment(),
       isDismissedMoment: notification.isDismissedMoment(),
     });
+    
+    if (notification.isDisplayed()) {
+      console.log('✅ Google One Tap is displayed - waiting for user interaction');
+    } else if (notification.isNotDisplayed()) {
+      console.error(`❌ Google One Tap not displayed. Reason: ${notification.getNotDisplayedReason()}`);
+      console.warn(`⚠️ This means the user will need to use the fallback authentication method`);
+    } else if (notification.isSkippedMoment()) {
+      console.warn(`⚠️ Google One Tap skipped. Reason: ${notification.getSkippedReason()}`);
+    }
   });
 };
 
@@ -422,6 +473,26 @@ const handleMockGoogleLogin = (): Promise<GoogleAuthResponse> => {
   });
 };
 
+// Export the tryGoogleOneTap function for testing purposes
+export const forceGoogleOneTap = async (): Promise<GoogleAuthResponse | null> => {
+  try {
+    const externalConfig = (window as any).ASAFARIM_AUTH_CONFIG;
+    const clientId = externalConfig?.googleClientId || GOOGLE_CLIENT_ID;
+    
+    console.log('🔐 Forcing Google One Tap authentication...');
+    
+    // Initialize Google client
+    await initGoogleAuth();
+    
+    return new Promise((resolve, reject) => {
+      tryGoogleOneTap(clientId, resolve, reject);
+    });
+  } catch (error) {
+    console.error('Error forcing Google One Tap:', error);
+    return null;
+  }
+};
+
 export const isAuthenticated = (): boolean => {
   return localStorage.getItem('auth_token') !== null;
 };
@@ -429,6 +500,17 @@ export const isAuthenticated = (): boolean => {
 export const getCurrentUser = (): GoogleAuthResponse['user'] | null => {
   const userData = localStorage.getItem('user_data');
   return userData ? JSON.parse(userData) : null;
+};
+
+export const getAuthDebugInfo = (): any => {
+  return {
+    authToken: localStorage.getItem('auth_token'),
+    userData: localStorage.getItem('user_data'),
+    usingMockAuth: localStorage.getItem('using_mock_auth'),
+    authFallbackMode: localStorage.getItem('auth_fallback_mode'),
+    isAuthenticated: isAuthenticated(),
+    currentUser: getCurrentUser(),
+  };
 };
 
 export const logout = (): Promise<void> => {
